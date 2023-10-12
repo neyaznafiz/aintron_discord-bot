@@ -1,4 +1,4 @@
-import { ChannelType, Client, GatewayIntentBits } from "discord.js";
+import { ChannelType, Client, GatewayIntentBits, Partials } from "discord.js";
 
 class DiscordBot {
   constructor(token) {
@@ -8,7 +8,9 @@ class DiscordBot {
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
+        GatewayIntentBits.DirectMessages,
       ],
+      partials: [Partials.Channel],
     });
   }
 
@@ -36,10 +38,13 @@ class DiscordBot {
 
   onMessageCreate(message) {
     console.log(`${message.author.globalName} says ${message}`);
-    console.log(message.author);
+    // console.log(message.author);
     if (!message.author.bot && message.channel.type === ChannelType.DM) {
       message.channel.sendTyping();
       message.reply(`Hi ${message.author.globalName}! How are you ?`);
+    } else if (!message.author.bot) {
+      message.channel.sendTyping();
+      message.reply(`Hi ${message.author.globalName}! How can I help you ?`);
     }
   }
 }
