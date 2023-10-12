@@ -1,4 +1,4 @@
-import chat from "../data/chat-data.js";
+import { chat } from "../data/content-data.js";
 import { ChannelType, Client, GatewayIntentBits, Partials } from "discord.js";
 
 class DiscordBot {
@@ -39,14 +39,25 @@ class DiscordBot {
 
   onMessageCreate(message) {
     const senderName = message.author.globalName || "";
-    // console.log(`${message.author.globalName} says ${message}`);
+    let senderAnswer = "";
 
-    if (!message.author.bot && message.channel.type === ChannelType.DM) {
-      message.channel.sendTyping();
-      message.reply(`${chat.hey} ${senderName}! ${chat.pleasantries}`);
-    } else if (!message.author.bot) {
-      message.channel.sendTyping();
-      message.reply(`${chat.hey} ${senderName}! ${chat.help}`);
+    let messageContentArray = message.content.toLowerCase().split(" ");
+    for (let content of messageContentArray) {
+      if (content === "fine" || "good") { senderAnswer = "pleasantries"; }
+      else if (content === "hi" || "hello" || "hey") { senderAnswer = "wave"; }
+    }
+
+    if (!message.author.bot) {
+      if (senderAnswer === "wave") {
+        message.channel.sendTyping();
+        message.reply(`${chat.hey} ${senderName}! ${chat.pleasantries}`);
+      } else if (senderAnswer === "pleasantries") {
+        message.channel.sendTyping();
+        message.reply(`${chat.help}`);
+      } else {
+        message.channel.sendTyping();
+        message.reply(`${chat.apologies}`);
+      }
     }
   }
 }
