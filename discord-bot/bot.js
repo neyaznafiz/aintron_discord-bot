@@ -43,8 +43,11 @@ class DiscordBot {
 
     let messageContentArray = message.content.toLowerCase().split(" ");
     for (let content of messageContentArray) {
-      if (content === "fine" || "good") { senderAnswer = "pleasantries"; }
-      else if (content === "hi" || "hello" || "hey") { senderAnswer = "wave"; }
+      if (content === ("fine" || "good")) {
+        senderAnswer = "pleasantries";
+      } else if (content === ("hi" || "hello" || "hey")) {
+        senderAnswer = "wave";
+      }
     }
 
     if (!message.author.bot) {
