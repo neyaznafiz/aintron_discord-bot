@@ -1,3 +1,4 @@
+import chat from "../data/chat-data.js";
 import { ChannelType, Client, GatewayIntentBits, Partials } from "discord.js";
 
 class DiscordBot {
@@ -30,21 +31,22 @@ class DiscordBot {
   onReady() {
     console.log("Bot is online");
     this.client.guilds.cache.forEach((guild) => {
-      console.log(`Guild Name: ${guild.name}`);
-      console.log(`Guild ID: ${guild.id}`);
-      console.log(`Guild Member: ${guild.memberCount}`);
+      console.log(`Discord Server Name: ${guild.name}`);
+      // console.log(`Guild ID: ${guild.id}`);
+      // console.log(`Guild Member: ${guild.memberCount}`);
     });
   }
 
   onMessageCreate(message) {
-    console.log(`${message.author.globalName} says ${message}`);
-    // console.log(message.author);
+    const senderName = message.author.globalName || "";
+    // console.log(`${message.author.globalName} says ${message}`);
+
     if (!message.author.bot && message.channel.type === ChannelType.DM) {
       message.channel.sendTyping();
-      message.reply(`Hi ${message.author.globalName}! How are you ?`);
+      message.reply(`${chat.hey} ${senderName}! ${chat.pleasantries}`);
     } else if (!message.author.bot) {
       message.channel.sendTyping();
-      message.reply(`Hi ${message.author.globalName}! How can I help you ?`);
+      message.reply(`${chat.hey} ${senderName}! ${chat.help}`);
     }
   }
 }
