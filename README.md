@@ -1,1 +1,1 @@
-# aintron Discord Bot
+# Aintron Discord Bot
